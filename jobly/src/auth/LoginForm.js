@@ -1,20 +1,12 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Alert from "../common/Alert";
 
 /** Login form.
- *
- * Shows form and manages update to state on changes.
- * On submission:
- * - calls login function prop
- * - redirects to /companies route
- *
- * Routes -> LoginForm -> Alert
- * Routed as /login
  */
 
 function LoginForm({ login }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -29,15 +21,13 @@ function LoginForm({ login }) {
   );
 
   /** Handle form submit:
-   *
-   * Calls login func prop and, if successful, redirect to /companies.
    */
 
   async function handleSubmit(evt) {
     evt.preventDefault();
     let result = await login(formData);
     if (result.success) {
-      history.push("/companies");
+      navigate("/companies");
     } else {
       setFormErrors(result.errors);
     }

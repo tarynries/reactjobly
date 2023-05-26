@@ -5,12 +5,6 @@ import JobCardList from "../jobs/JobCardList";
 import LoadingSpinner from "../common/LoadingSpinner";
 
 /** Company Detail page.
- *
- * Renders information about company, along with the jobs at that company.
- *
- * Routed at /companies/:handle
- *
- * Routes -> CompanyDetail -> JobCardList
  */
 
 function CompanyDetail() {
@@ -30,11 +24,11 @@ function CompanyDetail() {
   if (!company) return <LoadingSpinner />;
 
   return (
-      <div className="CompanyDetail col-md-8 offset-md-2">
-        <h4>{company.name}</h4>
-        <p>{company.description}</p>
-        <JobCardList jobs={company.jobs} />
-      </div>
+    <div className="CompanyDetail col-md-8 offset-md-2">
+      <h4>{company.name}</h4>
+      <p>{company.description}</p>
+      <JobCardList jobs={company.jobs} />
+    </div>
   );
 }
 

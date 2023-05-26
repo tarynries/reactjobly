@@ -17,6 +17,10 @@ const morgan = require("morgan");
 
 const app = express();
 
+// app.get("/", (req, res) => {
+//   res.send("Welcome to Jobly!");
+// });
+
 app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));

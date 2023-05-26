@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../auth/UserContext";
 
 /** "Higher-Order Component" for private routes.
@@ -11,22 +12,28 @@ import UserContext from "../auth/UserContext";
 
 function PrivateRoute({ exact, path, children }) {
   const { currentUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   console.debug(
-      "PrivateRoute",
-      "exact=", exact,
-      "path=", path,
-      "currentUser=", currentUser,
+    "PrivateRoute",
+    "exact=", exact,
+    "path=", path,
+    "currentUser=", currentUser,
   );
 
+  // if (!currentUser) {
+  //   return <Redirect to="/login" />;
+  // }
+
   if (!currentUser) {
-    return <Redirect to="/login" />;
+    navigate("/login");
+    return null;
   }
 
   return (
-      <Route exact={exact} path={path}>
-        {children}
-      </Route>
+    <Route exact={exact} path={path}>
+      {children}
+    </Route>
   );
 }
 

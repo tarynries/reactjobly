@@ -1,5 +1,6 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Routes, Redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Homepage from "../homepage/Homepage";
 import CompanyList from "../companies/CompanyList";
 import JobList from "../jobs/JobList";
@@ -11,55 +12,41 @@ import PrivateRoute from "./PrivateRoute";
 
 /** Site-wide routes.
  *
- * Parts of site should only be visitable when logged in. Those routes are
- * wrapped by <PrivateRoute>, which is an authorization component.
- *
- * Visiting a non-existant route redirects to the homepage.
  */
 
-function Routes({ login, signup }) {
+function AppRoutes({ login, signup }) {
+  const navigate = useNavigate();
   console.debug(
-      "Routes",
-      `login=${typeof login}`,
-      `register=${typeof register}`,
+    "Routes",
+    `login=${typeof login}`,
+    `register=${typeof register}`,
   );
 
   return (
-      <div className="pt-5">
-        <Switch>
+    <div className="pt-5">
+      <Routes>
 
-          <Route exact path="/">
-            <Homepage />
-          </Route>
+        <Route path="/" element={<Homepage />} />
 
-          <Route exact path="/login">
-            <LoginForm login={login} />
-          </Route>
+        <Route path="/login" element={<LoginForm login={login} />} />
 
-          <Route exact path="/signup">
-            <SignupForm signup={signup} />
-          </Route>
+        <Route path="/signup" element={<SignupForm signup={signup} />} />
 
-          <PrivateRoute exact path="/companies">
-            <CompanyList />
-          </PrivateRoute>
+        <Route path="/companies" element={<CompanyList />} />
 
-          <PrivateRoute exact path="/jobs">
-            <JobList />
-          </PrivateRoute>
+        <Route path="/jobs" element={<JobList />} />
 
-          <PrivateRoute exact path="/companies/:handle">
-            <CompanyDetail />
-          </PrivateRoute>
+        <Route path="/companies/:handle" element={<CompanyDetail />} />
 
-          <PrivateRoute path="/profile">
-            <ProfileForm />
-          </PrivateRoute>
+        <Route path="/profile" element={<ProfileForm />} />
 
-          <Redirect to="/" />
-        </Switch>
-      </div>
+        <Route path="*" element={() => {
+          navigate("/");
+          return null;
+        }} />
+      </Routes>
+    </div>
   );
 }
 
-export default Routes;
+export default AppRoutes;
